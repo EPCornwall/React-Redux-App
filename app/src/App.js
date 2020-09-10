@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
 import './App.css';
+import Jokes from './components/Jokes';
+import {connect} from 'react-redux';
+import {fetchJokes} from './store/actions';
 
-function App() {
+function App({fetchJokes, loadingJokes, errorMessage}) {
+  useEffect(() =>{
+    fetchJokes();
+  }, [fetchJokes])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Enjoy some programming Jokes!!</h1>
+      {!loadingJokes ? <Jokes /> : <div>... Fetching jokes</div>}
+      {errorMessage !== "" ? <div>{errorMessage}</div> : null }
     </div>
   );
 }
 
-export default App;
+function mapStateToProps(state) {
+  return{
+    loadingJokes: state.loadingJokes,
+    errorMessage: state.errorMessage
+  }
+}
+
+export default connect(mapStateToProps, {fetchJokes})(App);

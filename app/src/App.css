@@ -14,3 +14,9 @@
 .setup{
   text-decoration: underline;
 }
+
+.joke{
+  border: 2px solid grey;
+  margin: 2%;
+  width: 95%; 
+}
